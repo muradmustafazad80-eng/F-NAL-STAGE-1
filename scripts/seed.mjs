@@ -53,7 +53,7 @@ async function main() {
     for (const [customerName, phone, barberName, rating, comment] of reviews) {
       const customer = await client.query(`INSERT INTO "Customer" (name, phone) VALUES ($1,$2) ON CONFLICT (phone) DO UPDATE SET name=EXCLUDED.name RETURNING id`, [customerName, phone])
       const barber = await client.query(`SELECT id FROM "Barber" WHERE name=$1`, [barberName])
-      await client.query(`INSERT INTO "Review" (customerId, barberId, rating, comment) SELECT $1,$2,$3,$4 WHERE NOT EXISTS (SELECT 1 FROM "Review" WHERE comment=$4)`, [customer.rows[0].id, barber.rows[0].id, rating, comment])
+        await client.query(`INSERT INTO "Review" ("customerId", "barberId", rating, comment) SELECT $1,$2,$3,$4 WHERE NOT EXISTS (SELECT 1 FROM "Review" WHERE comment=$4)`, [customer.rows[0].id, barber.rows[0].id, rating, comment])
     }
     await client.query('COMMIT')
     console.log('Stage 1 seed data hazırdır (mövcud biznes məlumatları silinməyib).')
