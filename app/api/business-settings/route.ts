@@ -2,7 +2,6 @@ export const dynamic = 'force-dynamic'
 import { NextResponse } from 'next/server'
 import { getBusinessSettings } from '@/lib/data/public'
 
-export const dynamic = 'force-dynamic'
 export async function GET() {
   try {
     return NextResponse.json(await getBusinessSettings())
